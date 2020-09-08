@@ -39,7 +39,7 @@ class Grid(wxspreadsheet.Spreadsheet):
         self.Bind(wx.grid.EVT_GRID_RANGE_SELECT, self.OnRangeSelect)
         self.Bind(wx.grid.EVT_GRID_ROW_SIZE, self.OnRowSize)
         self.Bind(wx.grid.EVT_GRID_COL_SIZE, self.OnColSize)
-        self.Bind(wx.grid.EVT_GRID_CELL_CHANGE, self.OnCellChange)
+        self.Bind(wx.grid.EVT_GRID_CELL_CHANGED, self.OnCellChange)
         self.Bind(wx.grid.EVT_GRID_SELECT_CELL, self.OnGridSelectCell)
     
 	
@@ -53,7 +53,7 @@ class Grid(wxspreadsheet.Spreadsheet):
             for colnum in range(0,ncols):
                 value=self.GetCellValue(rownum,colnum)
                 line.append(value)
-                if value!=u"":
+                if value!="":
                     lastrow=rownum+1
             array.append(line)
         return array[:lastrow]

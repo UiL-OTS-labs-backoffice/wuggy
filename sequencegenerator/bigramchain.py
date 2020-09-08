@@ -80,10 +80,10 @@ class BigramChain(defaultdict):
 
     def build_limit_frequencies(self, fields):
         limits=defaultdict(dict)
-        for key, nextkeys in self.iteritems():
+        for key, nextkeys in self.items():
             position, value=key
             subkey_a=(position, tuple([value.__getattribute__(field) for field in fields]))
-            for nextkey,frequency in nextkeys.iteritems():
+            for nextkey,frequency in nextkeys.items():
                 position,value=nextkey
                 subkey_b=(position, tuple([value.__getattribute__(field) for field in fields]))
                 subkey=(subkey_a,subkey_b)
@@ -163,7 +163,7 @@ class BigramChain(defaultdict):
     def generate(self, startkeys=None):
         if startkeys==None:
             startkeys=self.startkeys
-        startkeys=list(startkeys.iteritems())
+        startkeys=list(startkeys.items())
         random.shuffle(startkeys)
         startkeys=dict(startkeys)
         if len(self)>0:
@@ -179,6 +179,6 @@ class BigramChain(defaultdict):
 
     def display(self):
         for key, nextkeys in sorted(self.items(),key=lambda x:x):
-            print '***',key.position,key.value
+            print('***', key.position, key.value)
             for nextkey,frequency in nextkeys.items():
-                print nextkey.value,frequency
+                print(nextkey.value, frequency)

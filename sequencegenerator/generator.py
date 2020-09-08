@@ -4,10 +4,10 @@ import random
 import codecs
 from fractions import Fraction
 from collections import defaultdict
-import cPickle as pickle
+import pickle
 import threading
 
-import bigramchain
+import sequencegenerator.bigramchain as bigramchain
 
 class Generator(object):
     def __init__(self):
@@ -76,7 +76,7 @@ class Generator(object):
             fields=line.strip().split('\t')
             word=fields[0]
             frequency_per_million=fields[-1]
-            if frequency_per_million>cutoff:
+            if len(frequency_per_million)>cutoff:
                 self.word_lexicon[word[0],len(word)].append(word)
         data_file.close()
         self.clear_status()
@@ -93,7 +93,7 @@ class Generator(object):
             fields=line.strip().split('\t')
             word=fields[0]
             frequency_per_million=fields[-1]
-            if frequency_per_million>cutoff:
+            if len(frequency_per_million)>cutoff:
                 self.neighbor_lexicon.append(word)
         data_file.close()
         self.clear_status()
@@ -174,9 +174,9 @@ class Generator(object):
                 self.statistics[name]=function(self, sequence)
                 self.stat_cache[(sequence, name)]=self.statistics[name]
             # compute matching and difference statistics
-            if 'match' in function.func_dict:
+            if 'match' in function.__dict__:
                 self.match_statistics[name]=function.match(self.statistics[name],self.reference_statistics[name])
-            if 'difference' in function.func_dict:
+            if 'difference' in function.__dict__:
                 self.difference_statistics[name]=function.difference(self.statistics[name],self.reference_statistics[name])
     
     def clear_statistics(self):
@@ -206,7 +206,7 @@ class Generator(object):
             self.set_attribute_filter(name, reference_sequence=reference_sequence)
     
     def apply_attribute_filters(self):
-        for attribute,reference_sequence in self.attribute_filters.iteritems():
+        for attribute,reference_sequence in self.attribute_filters.items():
             subchain=self.attribute_subchain if self.attribute_subchain!=None else self.bigramchain
             self.attribute_subchain=subchain.attribute_filter(reference_sequence, attribute)
     

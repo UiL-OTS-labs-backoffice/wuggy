@@ -8,9 +8,9 @@ sys.path.append(os.pardir)
 
 import Levenshtein
 
-from segment import *
+from plugins.segment import *
 
-from base_plugin import *
+from plugins.base_plugin import *
 
 separator=u'\t'
 subseparator=u'|'
